@@ -1,22 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Image } from './image';
 import { ImageDetailComponent } from './image-detail.component';
-
-const IMAGES: Image[] = [
-  { id: 1, alias: 'Ubuntu 16.04' },
-  { id: 2, alias: 'Ubuntu 15.10' },
-  { id: 3, alias: 'Ubuntu 15.04' },
-  { id: 4, alias: 'Ubuntu 14.10' },
-  { id: 5, alias: 'Ubuntu 14.04' },
-  { id: 6, alias: 'Ubuntu 13.10' },
-  { id: 7, alias: 'Ubuntu 13.04' },
-  { id: 8, alias: 'Ubuntu 12.10' },
-  { id: 9, alias: 'Ubuntu 12.04' },
-];
+import { ImageService } from './image.service';
 
 @Component({
   selector: 'my-app',
   directives: [ImageDetailComponent],
+  providers: [ImageService],
   template:`
     <h1>{{title}}</h1>
     <ul class="images">
@@ -27,9 +17,23 @@ const IMAGES: Image[] = [
     <image-detail [image]="selectedImage"></image-detail>
   `,
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit {
   title = 'LXD Web UI';
-  images = IMAGES;
+  images: Image[];
   selectedImage: Image;
-  onSelect(image: Image) { this.selectedImage = image; }
+
+  constructor(private imageService: ImageService) { }
+
+  ngOnInit() {
+    this.getImages();
+  }
+
+  onSelect(image: Image) {
+    this.selectedImage = image;
+  }
+
+  getImages() {
+    this.imageService.getImages().then(images => this.images = images);
+  }
 }
