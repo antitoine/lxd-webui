@@ -1,20 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Image } from './image';
-import { ImageDetailComponent } from './image-detail.component';
-import { ImageService } from './image.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
+import {Image} from './image';
+import {ImageService} from './image.service';
 
 @Component({
   selector: 'images',
-  directives: [ImageDetailComponent],
-  template:`
-    <h1>{{title}}</h1>
-    <ul class="images">
-      <li *ngFor="let image of images" (click)="onSelect(image)" [class.selected]="image === selectedImage">
-        <span class="badge">{{image.id}}</span> {{image.alias}}
-      </li>
-    </ul>
-    <image-detail [image]="selectedImage"></image-detail>
-  `,
+  templateUrl: 'app/images.component.html',
 })
 
 export class ImagesComponent implements OnInit {
@@ -22,7 +13,10 @@ export class ImagesComponent implements OnInit {
   images: Image[];
   selectedImage: Image;
 
-  constructor(private imageService: ImageService) { }
+  constructor(
+    private imageService: ImageService,
+    private router: Router) {
+  }
 
   ngOnInit() {
     this.getImages();
@@ -34,5 +28,9 @@ export class ImagesComponent implements OnInit {
 
   getImages() {
     this.imageService.getImages().then(images => this.images = images);
+  }
+
+  gotoDetail() {
+    this.router.navigate(['ImageDetail', { id: this.selectedImage.id }]);
   }
 }

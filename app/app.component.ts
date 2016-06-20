@@ -1,23 +1,32 @@
-import { Component }       from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
-import { ImageService }     from './image.service';
-import { ImagesComponent } from './images.component';
+import {Component} from '@angular/core';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-deprecated';
+import {ImageService} from './image.service';
+import {ImagesComponent} from './images.component';
+import {DashboardComponent} from './dashboard.component';
+import {ImageDetailComponent} from "./image-detail.component";
 
 @RouteConfig([
   {
     path: '/images',
     name: 'Images',
     component: ImagesComponent
-  }
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashboardComponent,
+    useAsDefault: true
+  },
+  {
+    path: '/image/detail/:id',
+    name: 'ImageDetail',
+    component: ImageDetailComponent
+  },
 ])
 
 @Component({
   selector: 'my-app',
-  template: `
-    <h1>{{title}}</h1>
-    <a [routerLink]="['Images']">LXD Images</a>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: 'app/app.component.html',
   directives: [ROUTER_DIRECTIVES],
   providers: [
     ROUTER_PROVIDERS,
