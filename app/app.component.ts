@@ -1,39 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { Image } from './image';
-import { ImageDetailComponent } from './image-detail.component';
-import { ImageService } from './image.service';
+import { Component }       from '@angular/core';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
+import { ImageService }     from './image.service';
+import { ImagesComponent } from './images.component';
+
+@RouteConfig([
+  {
+    path: '/images',
+    name: 'Images',
+    component: ImagesComponent
+  }
+])
 
 @Component({
   selector: 'my-app',
-  directives: [ImageDetailComponent],
-  providers: [ImageService],
-  template:`
+  template: `
     <h1>{{title}}</h1>
-    <ul class="images">
-      <li *ngFor="let image of images" (click)="onSelect(image)" [class.selected]="image === selectedImage">
-        <span class="badge">{{image.id}}</span> {{image.alias}}
-      </li>
-    </ul>
-    <image-detail [image]="selectedImage"></image-detail>
+    <a [routerLink]="['Images']">LXD Images</a>
+    <router-outlet></router-outlet>
   `,
+  directives: [ROUTER_DIRECTIVES],
+  providers: [
+    ROUTER_PROVIDERS,
+    ImageService
+  ]
 })
-
-export class AppComponent implements OnInit {
-  title = 'LXD Web UI';
-  images: Image[];
-  selectedImage: Image;
-
-  constructor(private imageService: ImageService) { }
-
-  ngOnInit() {
-    this.getImages();
-  }
-
-  onSelect(image: Image) {
-    this.selectedImage = image;
-  }
-
-  getImages() {
-    this.imageService.getImages().then(images => this.images = images);
-  }
+export class AppComponent {
+  title = 'Tour of LXD Images';
 }
