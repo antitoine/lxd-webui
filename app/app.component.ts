@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {HTTP_PROVIDERS} from '@angular/http';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router-deprecated';
 import {ImageService} from './image.service';
 import {ImagesComponent} from './images.component';
@@ -29,6 +30,7 @@ import {ImageDetailComponent} from "./image-detail.component";
   templateUrl: 'app/app.component.html',
   directives: [ROUTER_DIRECTIVES],
   providers: [
+    HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     ImageService
   ]
