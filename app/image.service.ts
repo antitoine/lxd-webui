@@ -13,7 +13,7 @@ export class ImageService {
   getImages(): Promise<Image[]> {
     return this.http.get('https://images.linuxcontainers.org/1.0/images/aliases')
       .toPromise()
-      .then(response => response.json().data)
+      .then(response => response.json().metadata)
       .catch(this.handleError);
   }
 
